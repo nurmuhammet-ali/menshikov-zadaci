@@ -1,41 +1,49 @@
 #include "./funcs.cpp"
 
-ifstream in("expr.in");
-ofstream out("expr.out");
-
-int  n;
-long x[30];
-long s;
-unsigned int a[2]={1,-1};
-bool buf[30];
-char c[2]={'+','-'};
-bool found=0;
-
-void expr( int begin, int summa)
+void menshikow_1_a()
 {
-    if (begin == n)
+    int m,n, we = 0;
+    vector<int> v;
+
+    ifstream oka("data/primes.in");
+    ofstream yaz("data/primes.out");
+    
+    oka >> m;
+    oka >> n;
+    
+    oka.close();
+
+    for (int i = m; i <= n; i++)
     {
-        if ( summa == s ) {
-            cout<<x[0];
-            for (int i=1;i<n;i++)
-            cout<<c[buf[i]]<<x[i];
-            cout<<endl; 
-            found=1;}
-    return;
+        for (int j = 1; j <= (i/2); j++)
+        {
+            if (i % j == 0)
+            {
+                we++;
+            }
+        }
+
+        if (we == 1)
+        {
+            v.push_back(i);
+        }
+        we = 0;
     }
-    for (int i=0;i<2;i++)
-        expr(begin+1, summa+a[i]*x[begin]),buf[begin]=i;
+
+    if (!v.empty())
+    {
+        for (int i = 0; i < v.size(); i++)
+        {
+            yaz << v[i] << " ";
+        }
+    } else {
+        cout << "Absent";
+    }
 }
 
 int main()
 {
-    cin>>n>>s;
-    for (int i=0;i<n;i++)
-    cin>>x[i];
-
-    expr(1, x[0]);
-    if (found==0) cout<<"no solution";
-    in.close();
-    out.close();
+    menshikow_1_a();
+    
     return 0;
 }
